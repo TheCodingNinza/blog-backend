@@ -1,7 +1,7 @@
 rootProject.name = 'blog-backend'
 include('services')
 include('dataaccess')
-include('endpoints')
+include('entryway')
 include('configurations')
 include('starter')
 

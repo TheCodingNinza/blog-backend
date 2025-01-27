@@ -4,7 +4,5 @@ tasks.named('bootJar') {
 
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-jersey')
-    implementation(project(":dataaccess"))
     implementation(project(":services"))
-    implementation(project(":entryway"))
 }

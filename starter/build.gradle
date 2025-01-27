@@ -1,0 +1,10 @@
+tasks.named('bootJar') {
+    enabled = false
+}
+
+dependencies {
+    implementation(project(":configurations"))
+    implementation(project(":dataaccess"))
+    implementation(project(":entryway"))
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+}

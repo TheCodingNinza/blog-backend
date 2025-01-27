@@ -1,0 +1,7 @@
+dependencies{
+    implementation(project(":dataaccess"))
+}
+
+tasks.named('bootJar') {
+    enabled = false
+}
