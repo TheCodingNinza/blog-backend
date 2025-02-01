@@ -57,6 +57,9 @@ public class MediaResource {
     @Produces(value = MediaType.APPLICATION_JSON)
     @Consumes(value = MediaType.APPLICATION_JSON)
     public Response updateMedia(final MediaRequest mediaRequest, final @PathParam("mediaId") Long mediaId) throws JsonProcessingException {
+        if(mediaRequest.getMediaId() != null && mediaRequest.getMediaId() != mediaId)
+            throw new RuntimeException("Bad Request");
+        mediaRequest.setMediaId(mediaId);
         MediaResponse mediaResponse = MediaMapper.MAPPER.fromMedia(mediaService.updateMedia(MediaMapper.MAPPER.fromMediaRequest(mediaRequest)));
         return Response.status(Response.Status.OK)
                 .entity(mediaResponse)

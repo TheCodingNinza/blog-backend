@@ -42,6 +42,8 @@ public class PostResource {
     @Produces(value = MediaType.APPLICATION_JSON)
     @Consumes(value = MediaType.APPLICATION_JSON)
     public Response updatePost(final PostRequest postRequest, final @PathParam("postId") Long postId) {
+        if(postRequest.getPostId() != null && postRequest.getPostId() != postId)
+            throw new RuntimeException("Bad request");
         postRequest.setPostId(postId);
         PostResponse postResponse = PostMapper.Mapper.fromPost(postService.updatePost(PostMapper.Mapper.fromPostRequest(postRequest)));
         return Response.status(Response.Status.OK)
