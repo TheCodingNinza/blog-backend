@@ -5,15 +5,12 @@ import com.saurabhsameer.dataaccess.entities.dbgateway.MediaDBGateway;
 import com.saurabhsameer.services.MediaService;
 import com.saurabhsameer.services.entities.Media;
 import com.saurabhsameer.services.mapper.MediaMapper;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class MediaServiceImpl implements MediaService {
     private final MediaDBGateway mediaDBGateway;
@@ -26,6 +23,7 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
+    @Transactional
     public Media createMedia(InputStream file, Media media, String format) {
         String fileName = UUID.randomUUID() + "."+format;
 
@@ -45,7 +43,7 @@ public class MediaServiceImpl implements MediaService {
             MediaEntity mediaEntity = new MediaEntity();
             mediaEntity.setUrl(fileUrl);
             mediaEntity.setCaption(media.getCaption());
-            MediaEntity savedEntity = mediaDBGateway.createMedia(mediaEntity, media.getPostId());
+            MediaEntity savedEntity = mediaDBGateway.createMedia(mediaEntity);
             return MediaMapper.MAPPER.fromMediaEntity(savedEntity);
         }catch (IOException e){
             e.printStackTrace();
@@ -54,18 +52,22 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public List<Media> getMedia(Long postId) {
-        return mediaDBGateway.getMediaList(postId).stream().map(mediaEntity -> MediaMapper.MAPPER.fromMediaEntity(mediaEntity)).collect(Collectors.toList());
-    }
-
-    @Override
+    @Transactional
     public Media updateMedia(Media media) {
-        return MediaMapper.MAPPER.fromMediaEntity(mediaDBGateway.updateMedia(MediaMapper.MAPPER.fromMedia(media)));
+
+        MediaEntity savedEntity = mediaDBGateway.updateMedia(MediaMapper.MAPPER.fromMedia(media));
+        return MediaMapper.MAPPER.fromMediaEntity(savedEntity);
     }
 
     @Override
+    @Transactional
     public void deleteMedia(Long mediaId) {
         mediaDBGateway.deleteMedia(mediaId);
+    }
+
+    @Override
+    public Media getMedia(Long mediaId) {
+        return MediaMapper.MAPPER.fromMediaEntity(mediaDBGateway.getMedia(mediaId));
     }
 
 

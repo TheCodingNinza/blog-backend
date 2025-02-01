@@ -7,9 +7,9 @@ import com.saurabhsameer.dataaccess.entities.repository.MediaRepository;
 import com.saurabhsameer.dataaccess.entities.repository.PostRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+import java.util.stream.Collectors;
+
 
 public class MediaDBGatewayImpl implements MediaDBGateway {
     private final MediaRepository mediaRepository;
@@ -22,41 +22,43 @@ public class MediaDBGatewayImpl implements MediaDBGateway {
 
     @Override
     @Transactional
-    public List<MediaEntity> getMediaList(Long postId) {
-        return mediaRepository.findMediaByPostId(postId);
-    }
-
-    @Override
-    @Transactional
     public void deleteMedia(Long mediaId) {
-        mediaRepository.deleteById(mediaId);
+        PostEntity postEntity = postRepository.findByMediaId(mediaId);
+        if (postEntity != null) {
+            postEntity.getMediaList().removeIf(media -> media.getMediaId().equals(mediaId));
+            postRepository.save(postEntity); // Persist the change
+        }
     }
 
     @Override
     @Transactional
     public MediaEntity updateMedia(MediaEntity mediaEntity) {
-        Optional<MediaEntity> foundEntity = mediaRepository.findById(mediaEntity.getMediaId());
-        if(foundEntity.isEmpty())
-            return null;
-        MediaEntity updatedEntity = foundEntity.get();
-        if(mediaEntity.getCaption() != null)
-            updatedEntity.setCaption(mediaEntity.getCaption());
-        if(mediaEntity.getUrl() != null)
-            updatedEntity.setUrl(mediaEntity.getUrl());
+        if(mediaEntity.getMediaId() != null){
+            MediaEntity foundEntity = mediaRepository.findById(mediaEntity.getMediaId()).orElseThrow();
+            if(mediaEntity.getUrl() != null)
+                foundEntity.setUrl(mediaEntity.getUrl());
+            if(mediaEntity.getCaption() != null)
+                foundEntity.setCaption(mediaEntity.getCaption());
+        }else{
+            throw new RuntimeException("Not Found!");
+        }
 
-        return mediaRepository.save(updatedEntity);
+        return mediaRepository.save(mediaEntity);
     }
 
     @Override
     @Transactional
-    public MediaEntity createMedia(MediaEntity mediaEntity, Long postId) {
-        Optional<PostEntity> post = null;
-
-        if(postId != null)
-            post = postRepository.findById(postId);
-        if(post != null && !post.isEmpty())
-            mediaEntity.setPost(post.get());
+    public MediaEntity createMedia(MediaEntity mediaEntity) {
         return mediaRepository.save(mediaEntity);
+    }
+
+    @Override
+    @Transactional
+    public MediaEntity getMedia(Long mediaId) {
+        Optional<MediaEntity> foundEntity = mediaRepository.findById(mediaId);
+        if(foundEntity.isEmpty())
+            throw new RuntimeException("Not found");
+        return foundEntity.get();
     }
 
 }

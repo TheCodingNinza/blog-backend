@@ -1,18 +1,20 @@
-package com.saurabhsameer.services.entities;
+package com.saurabhsameer.endpoints.requests;
+
+import com.saurabhsameer.services.entities.Media;
+import com.saurabhsameer.services.entities.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public class Post {
+public class PostRequest {
 
     private Long postId;
     private String title;
     private String content;
     private LocalDateTime publishedAt;
     private LocalDateTime lastModifiedAt;
-    private List<Media> mediaList;
+    private List<MediaRequest> mediaList;
 
     private User author;
 
@@ -56,11 +58,11 @@ public class Post {
         this.lastModifiedAt = lastModifiedAt;
     }
 
-    public List<Media> getMediaList() {
+    public List<MediaRequest> getMediaList() {
         return mediaList;
     }
 
-    public void setMediaList(List<Media> mediaList) {
+    public void setMediaList(List<MediaRequest> mediaList) {
         this.mediaList = mediaList;
     }
 
@@ -72,6 +74,7 @@ public class Post {
         this.author = author;
     }
 
-    public Post() {
+    public PostRequest() {
+        this.mediaList = new ArrayList<>();
     }
 }

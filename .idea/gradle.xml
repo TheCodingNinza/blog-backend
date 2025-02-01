@@ -10,11 +10,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/application" />
             <option value="$PROJECT_DIR$/configurations" />
             <option value="$PROJECT_DIR$/dataaccess" />
             <option value="$PROJECT_DIR$/entryway" />
             <option value="$PROJECT_DIR$/services" />
-            <option value="$PROJECT_DIR$/starter" />
           </set>
         </option>
       </GradleProjectSettings>

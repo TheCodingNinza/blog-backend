@@ -3,6 +3,7 @@ package com.saurabhsameer.services.mapper;
 import com.saurabhsameer.dataaccess.entities.MediaEntity;
 import com.saurabhsameer.services.entities.Media;
 
+
 public interface MediaMapper {
 
     MediaMapper MAPPER = new MediaMapper() {
@@ -11,9 +12,9 @@ public interface MediaMapper {
             if(media == null)
                 return null;
             MediaEntity mediaEntity = new MediaEntity();
+            mediaEntity.setMediaId(media.getMediaId());
             mediaEntity.setCaption(media.getCaption());
             mediaEntity.setUrl(media.getUrl());
-            mediaEntity.getPost().setPostId(media.getPostId());
             return mediaEntity;
         }
 
@@ -25,8 +26,6 @@ public interface MediaMapper {
             media.setMediaId(mediaEntity.getMediaId());
             media.setCaption(mediaEntity.getCaption());
             media.setUrl(mediaEntity.getUrl());
-            if(mediaEntity.getPost() != null)
-                media.setPostId(mediaEntity.getPost().getPostId());
             return media;
         }
     };

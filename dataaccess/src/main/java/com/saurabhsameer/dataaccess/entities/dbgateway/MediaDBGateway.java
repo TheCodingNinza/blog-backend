@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface MediaDBGateway {
-        List<MediaEntity> getMediaList(Long postId);
         void deleteMedia(Long mediaId);
-        MediaEntity updateMedia(MediaEntity media);
-
-        MediaEntity createMedia(MediaEntity mediaEntity, Long postId);
+        MediaEntity updateMedia(MediaEntity mediaEntity);
+        MediaEntity createMedia(MediaEntity mediaEntity);
+        MediaEntity getMedia(Long mediaId);
 }

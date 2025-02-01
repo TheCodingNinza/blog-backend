@@ -3,7 +3,7 @@ package com.saurabhsameer.services.entities;
 import java.util.UUID;
 
 public class User {
-    private UUID userId;
+    private Long userId;
     private String name;
     private String email;
 
@@ -31,8 +31,11 @@ public class User {
         this.email = email;
     }
 
-    public UUID getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }

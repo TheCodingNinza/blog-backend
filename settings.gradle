@@ -3,5 +3,5 @@ include('services')
 include('dataaccess')
 include('entryway')
 include('configurations')
-include('starter')
+include('application')
 

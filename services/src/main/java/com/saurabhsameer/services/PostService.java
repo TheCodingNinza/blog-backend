@@ -7,13 +7,13 @@ import java.util.UUID;
 
 public interface PostService {
 
-    Post getPostById(UUID postId);
+    Post getPostById(Long postId);
 
     List<Post> getPosts();
 
-    void createPost(Post post);
+    Post createPost(Post post);
 
-    void updatePost(Post post);
+    Post updatePost(Post post);
 
-    void deletePost(UUID postId);
+    void deletePost(Long postId);
 }

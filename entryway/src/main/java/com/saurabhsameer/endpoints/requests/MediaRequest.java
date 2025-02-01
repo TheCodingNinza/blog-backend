@@ -1,5 +1,7 @@
 package com.saurabhsameer.endpoints.requests;
 
+import com.saurabhsameer.services.entities.Post;
+
 import java.util.UUID;
 
 public class MediaRequest {
@@ -7,7 +9,6 @@ public class MediaRequest {
     private String url;
     private String caption;
     private String format;
-    private Long postId;
 
     public String getUrl() {
         return url;
@@ -41,11 +42,4 @@ public class MediaRequest {
         this.mediaId = mediaId;
     }
 
-    public Long getPostId() {
-        return postId;
-    }
-
-    public void setPostId(Long postId) {
-        this.postId = postId;
-    }
 }

@@ -1,11 +1,8 @@
 package com.saurabhsameer.dataaccess.entities;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "post")
@@ -15,22 +12,28 @@ public class PostEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "post_id")
     private Long postId;
+
     @Column(name = "title")
     private String title;
+
     @Column(name = "content")
     private String content;
+
     @Column(name = "published_at")
     private LocalDateTime publishedAt;
 
     @Column(name = "last_modified_at")
     private LocalDateTime lastModifiedAt;
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-    private List<MediaEntity> mediaEntityList;
-
-    @OneToOne(fetch = FetchType.LAZY) // Enable lazy loading
-    @JoinColumn(name = "author_id", referencedColumnName = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", nullable = false) // Foreign key in `post` table
     private UserEntity author;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "post_id") // Foreign key in `media` table
+    private List<MediaEntity> mediaList;
+
+    public PostEntity() {}
 
     public Long getPostId() {
         return postId;
@@ -38,14 +41,6 @@ public class PostEntity {
 
     public void setPostId(Long postId) {
         this.postId = postId;
-    }
-
-    public List<MediaEntity> getMediaEntityList() {
-        return mediaEntityList;
-    }
-
-    public void setMediaEntityList(List<MediaEntity> mediaEntityList) {
-        this.mediaEntityList = mediaEntityList;
     }
 
     public String getTitle() {
@@ -80,14 +75,6 @@ public class PostEntity {
         this.lastModifiedAt = lastModifiedAt;
     }
 
-    public List<MediaEntity> getMediaList() {
-        return mediaEntityList;
-    }
-
-    public void setMediaList(List<MediaEntity> mediaEntityList) {
-        this.mediaEntityList = mediaEntityList;
-    }
-
     public UserEntity getAuthor() {
         return author;
     }
@@ -96,7 +83,11 @@ public class PostEntity {
         this.author = author;
     }
 
-    public PostEntity() {
-        this.mediaEntityList = new ArrayList<>();
+    public List<MediaEntity> getMediaList() {
+        return mediaList;
+    }
+
+    public void setMediaList(List<MediaEntity> mediaList) {
+        this.mediaList = mediaList;
     }
 }

@@ -7,8 +7,6 @@ public class Media {
     private String url;
     private String caption;
 
-    private Long postId;
-
     public Long getMediaId() {
         return mediaId;
     }
@@ -33,11 +31,4 @@ public class Media {
         this.caption = caption;
     }
 
-    public Long getPostId() {
-        return postId;
-    }
-
-    public void setPostId(Long postId) {
-        this.postId = postId;
-    }
 }

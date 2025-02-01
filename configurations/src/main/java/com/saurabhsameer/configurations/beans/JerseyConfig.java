@@ -1,6 +1,7 @@
 package com.saurabhsameer.configurations.beans;
 
 import com.saurabhsameer.endpoints.MediaResource;
+import com.saurabhsameer.endpoints.PostResource;
 import jakarta.annotation.PostConstruct;
 import jakarta.ws.rs.ApplicationPath;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -15,6 +16,7 @@ public class JerseyConfig extends ResourceConfig {
     public void setUp() {
         System.out.println("registered");
         register(MediaResource.class);
+        register(PostResource.class);
     }
 
 }
